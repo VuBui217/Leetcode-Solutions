@@ -1,33 +1,28 @@
 Link to problem: https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/
 class Solution:
-    def isPalindrome(self, s: str) -> bool:
-        # Solution 1: Use built in library 
-        # Create an extra string to store only alphanumeric characters
-        # new_str = ""
-        # for c in s:
-        #     if c.isalnum():
-        #         new_str += c.lower()
-        # return new_str == new_str[::-1]
-
-        # Solution 2: Using 2 pointers and make your own isalnum function
-        # left pointer starts at the firt character of the string
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        # Algorithm: Using 2 pointers to solve
+        # One pointer is at the first element, another on start at the last element
+        # Because the 'numbers' is sorted in ascending order
+        # Use a while loop to calculate the sum of pair numbers in the array
+        # If the current sum is greater than the target. That means we need to move the 
+        # right pointer to the left
+        # Similarly when the current sum is smaller than target
+        # We move 2 pointers until the sum = target
         l = 0
-        # right pointer starts at the last character of the string
-        r = len(s) - 1
-        while l <= r:
-            # increase l until see the character or number
-            while l < r and not self.isAlphaNum(s[l]):
-                l += 1
-            # decrease r until see the character or number
-            while r > l and not self.isAlphaNum(s[r]):
+        r = len(numbers) - 1
+        while l < r:
+            sum = numbers[l] + numbers[r]
+            if sum > target:
                 r -= 1
-            # Compare 2 characters, if they are not the same -> not valid palindrome
-            if s[l].lower() != s[r].lower():
-                return False
-            l += 1
-            r -= 1
-        return True
-    def isAlphaNum(self, c: chr) -> bool:
-        return (ord('A') <= ord(c) <= ord('Z') or 
-                ord('a') <= ord(c) <= ord('z') or
-                ord('0') <= ord(c) <= ord('9'))
+            elif sum < target:
+                l += 1
+            else:
+                return [l+1, r + 1]
+
+        # Time complexity: O(n)
+        # Space Complexity: O(1)
+        #1 2 3 4
+        #l = 0 r = 3  1+4 > 3 r = 2
+        #l = 0 r = 2  1+3 > 3 r = 1
+        #l = 0 r = 1  1+2 = 3 r = 1  
